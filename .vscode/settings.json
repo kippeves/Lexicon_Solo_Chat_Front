@@ -1,0 +1,7 @@
+{
+	"[dockercompose]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"css.customData": [".vscode/tailwind.json"],
+	"typescript.tsdk": "node_modules/typescript/lib"
+}
