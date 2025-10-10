@@ -1,9 +1,15 @@
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
 import ChatClient from '../components/chat/client'
+import { ChatProvider } from '../contexts/chat-context'
 
 export default async function ChatPage() {
-	const session = getKindeServerSession()
-	const token = await session.getIdTokenRaw()
-
-	return token && <ChatClient token={token} />
+	const user = getKindeServerSession()
+	const token = await user.getAccessTokenRaw()
+	return (
+		token && (
+			<ChatProvider token={token}>
+				<ChatClient />
+			</ChatProvider>
+		)
+	)
 }
