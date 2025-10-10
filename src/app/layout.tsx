@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
+import { Card } from '@/components/ui/card'
+import ContentGrid from './components/grids/content-grid'
 import { AuthProvider } from './providers/AuthProvider'
 
 const geistSans = Geist({
@@ -27,9 +29,9 @@ export default function RootLayout({
 		<AuthProvider>
 			<html lang="en">
 				<body
-					className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+					className={`${geistSans.variable} ${geistMono.variable} antialiased h-dvh bg-gradient-to-r from-slate-500 to-slate-800`}
 				>
-					{children}
+					<main className="h-dvh">{children}</main>
 				</body>
 			</html>
 		</AuthProvider>
