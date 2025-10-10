@@ -1,29 +1,32 @@
 'use client'
 
-import { signal, useSignal } from '@preact/signals-react'
+import { signal } from '@preact/signals-react'
 import { For } from '@preact/signals-react/utils'
-import usePartySocket from 'partysocket/react'
+import { useChat } from '@/app/contexts/chat-context'
+import { Spinner } from '@/components/ui/spinner'
 
 const messages = signal<string[]>([])
 
-export default function ChatClient({ token }: { token: string }) {
-	usePartySocket({
-		host: '192.168.2.40:1999', // or localhost:1999 in dev
-		room: 'chat',
-		maxRetries: 1,
-		onMessage(e) {
-			messages.value = [...messages.value, e.data]
-		},
-		// optionally, pass an object of query string parameters to add to the request
-		query: async () => ({
-			token,
-		}),
-	})
+export default function ChatClient() {
+	const { connected } = useChat()
 	return (
-		<div>
-			<For each={messages} fallback={<div>No Messages</div>}>
-				{(item, index) => <div key={index}>{item}</div>}
-			</For>
+		<div className="breakout grid grid-rows-[75%_25%] space-y-4">
+			{!connected && (
+				<div className="h-full w-full flex flex-col justify-center items-center ">
+					<Spinner className="w-40 h-auto" />
+				</div>
+			)}
+
+			{connected && (
+				<>
+					<div className="bg-white rounded-lg shadow p-4">
+						<For each={messages} fallback={<p>No Messages</p>}>
+							{(item, index) => <div key={index}>{item}</div>}
+						</For>
+					</div>
+					<div className="bg-white rounded-lg shadow"></div>
+				</>
+			)}
 		</div>
 	)
 }
