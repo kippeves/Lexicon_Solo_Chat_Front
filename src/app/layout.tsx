@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
+import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
 import { Card } from '@/components/ui/card'
+import { cn } from '@/lib/utils'
 import ContentGrid from './components/grids/content-grid'
 import { AuthProvider } from './providers/AuthProvider'
 
