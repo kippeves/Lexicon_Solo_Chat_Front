@@ -4,8 +4,8 @@ import { useChat } from '@/app/contexts/chat-context'
 import type { Message } from '@/app/validators/messages'
 import type { User } from '@/app/validators/users'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Card } from '@/components/ui/card'
 import { usePartyServer } from '../utils/createPartyServer'
+import Container from './container'
 
 function UserList() {
 	const { host: hostURI, token } = useChat()
@@ -26,7 +26,7 @@ function UserList() {
 
 	return (
 		connected && (
-			<div className="bg-white rounded-lg shadow flex items-center gap-4 px-6 py-3 overflow-x-auto">
+			<Container className="flex items-center gap-4 px-6 py-3 overflow-x-auto">
 				<For each={users} fallback={<p>No Messages</p>}>
 					{(item) => (
 						<div key={item.id}>
@@ -47,7 +47,7 @@ function UserList() {
 						</div>
 					)}
 				</For>
-			</div>
+			</Container>
 		)
 	)
 }

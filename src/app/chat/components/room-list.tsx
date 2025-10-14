@@ -2,6 +2,7 @@
 import { useChat } from '@/app/contexts/chat-context'
 import type { Message } from '@/app/validators/messages'
 import { usePartyServer } from '../utils/createPartyServer'
+import Container from './container'
 
 function RoomList() {
 	const { host: hostURI, token } = useChat()
@@ -17,13 +18,11 @@ function RoomList() {
 	})
 	return (
 		connected && (
-			<div className="flex flex-col">
-				<div className="grow bg-white rounded-lg shadow p-4">
-					{/* <For each={events} fallback={<p>No Messages</p>}>
+			<Container className="flex flex-col">
+				{/* <For each={events} fallback={<p>No Messages</p>}>
 						{(item, index) => <div key={index}>{item.data}</div>}
 					</For> */}
-				</div>
-			</div>
+			</Container>
 		)
 	)
 }
