@@ -9,7 +9,7 @@ type ServerParams = {
 	room?: string
 	onUpdate: (e: Message) => void
 }
-export const usePartyServer = ({
+export const usePartyRoom = ({
 	host,
 	token,
 	party,
