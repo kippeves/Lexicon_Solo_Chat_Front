@@ -1,6 +1,7 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
+	typedRoutes: true,
 	env: {
 		KINDE_SITE_URL:
 			process.env.KINDE_SITE_URL ?? `https://${process.env.VERCEL_URL}`,
