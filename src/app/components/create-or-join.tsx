@@ -1,24 +1,36 @@
 import { Button } from '@/components/ui/button'
-import {
-	InputGroup,
-	InputGroupAddon,
-	InputGroupButton,
-	InputGroupInput,
-} from '@/components/ui/input-group'
-import Container from './container'
+import { Input } from '@/components/ui/input'
 
-export default function CreateOrJoin() {
+export default function CreateOrJoin({
+	onCreating,
+}: {
+	onCreating: () => void
+}) {
+	const createRoom = () => onCreating()
 	return (
-		<Container className="flex justify-evenly py-8 gap-4">
-			<Button size={'lg'} className="text-2xl p-8" variant={'outline'}>
+		<div className="flex flex-col gap-2 self-end w-75">
+			<Button
+				size={'lg'}
+				onClick={createRoom}
+				className="text-2xl p-8 w-full"
+				variant={'outline'}
+			>
 				Create Room
 			</Button>
-			<InputGroup className="p-8 w-100">
-				<InputGroupInput className="md:text-2xl" placeholder="Enter Code" />
-				<InputGroupAddon align="inline-end">
-					<InputGroupButton className="md:text-2xl">Join</InputGroupButton>
-				</InputGroupAddon>
-			</InputGroup>
-		</Container>
+			<div className="flex w-fit focus-within:ring-4 ring-gray-300 rounded-lg">
+				<Input
+					type="text"
+					maxLength={8}
+					className="md:text-2xl p-7 rounded-r-none focus-visible:ring-0"
+					placeholder="Enter Code"
+				/>
+				<Button
+					variant={'default'}
+					className="md:text-2xl h-full rounded-l-none border-l-0"
+				>
+					Join
+				</Button>
+			</div>
+		</div>
 	)
 }
