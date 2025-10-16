@@ -1,9 +1,38 @@
 import z from 'zod'
-import { UserSchema } from './users'
+import { UserSchema } from '@/app/validators/users'
 
-export const MessageSchema = z.object({
-	type: z.literal('presence'),
-	payload: z.object({ users: z.array(UserSchema) }),
-})
+export type ChatRoomEvent = z.infer<typeof ChatRoomEventSchema>
 
-export type Message = z.infer<typeof MessageSchema>
+export const ChatRoomEventSchema = z
+	.object({
+		type: z.literal('user:join'),
+		payload: z.object({
+			user: UserSchema,
+		}),
+	})
+	.or(
+		z.object({
+			type: z.literal('user:leave'),
+			payload: z.object({
+				user: UserSchema,
+			}),
+		}),
+	)
+	.or(
+		z.object({
+			type: z.literal('server:message'),
+			payload: z.object({
+				user: UserSchema,
+				sent: z.date(),
+				message: z.string(),
+			}),
+		}),
+	)
+	.or(
+		z.object({
+			type: z.literal('user:message'),
+			payload: z.object({
+				message: z.string(),
+			}),
+		}),
+	)

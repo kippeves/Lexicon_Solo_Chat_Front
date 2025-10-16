@@ -9,6 +9,8 @@ export const LobbyRoomSchema = z.object({
 
 export type LobbyRoom = z.infer<typeof LobbyRoomSchema>
 
+export type LobbyMessage = z.infer<typeof LobbyMessageSchema>
+
 export const LobbyMessageSchema = z
 	.object({
 		type: z.literal('create'),

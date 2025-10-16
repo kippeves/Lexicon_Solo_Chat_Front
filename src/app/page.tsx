@@ -20,7 +20,7 @@ export default async function Home() {
 						</>
 					)}
 					<Button variant={'outline'} className="w-fit p-8">
-						<Link className="text-4xl" href={'chat'}>
+						<Link className="text-4xl" href={'/chat'}>
 							Gå till chat
 						</Link>
 					</Button>

@@ -6,4 +6,10 @@ export const UserSchema = z.object({
 	avatar: z.url(),
 })
 
+export const PresenceSchema = z.object({
+	type: z.literal('presence'),
+	payload: z.object({ users: z.array(UserSchema) }),
+})
+
+export type Presence = z.infer<typeof PresenceSchema>
 export type User = z.infer<typeof UserSchema>

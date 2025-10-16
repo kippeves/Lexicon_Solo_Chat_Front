@@ -1,23 +1,21 @@
-import { type Signal, useSignal } from '@preact/signals-react'
 import type PartySocket from 'partysocket'
 import usePartySocket from 'partysocket/react'
 import { useState } from 'react'
-import type { Message } from '@/app/validators/messages'
 
-export type PartyParams = {
+export type PartyParams<T> = {
 	host: string
 	token: string
 	party: string
 	room?: string
-	onUpdate: (e: Message) => void
+	onUpdate: (e: T) => void
 }
-export const usePartyRoom = ({
+export const usePartyRoom = <T>({
 	host,
 	token,
 	party,
 	onUpdate,
 	room = 'main',
-}: PartyParams): { connected: boolean; ws: PartySocket } => {
+}: PartyParams<T>): { connected: boolean; ws: PartySocket } => {
 	const [connected, setConnected] = useState(false)
 	const params = { host, party, room }
 
@@ -30,8 +28,8 @@ export const usePartyRoom = ({
 			setConnected(true)
 		},
 		onMessage(e) {
-			const data = JSON.parse(e.data)
-			onUpdate(data as Message)
+			const data = JSON.parse(e.data) as T
+			onUpdate(data)
 		},
 		query: async () => ({
 			token,

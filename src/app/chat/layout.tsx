@@ -1,8 +1,8 @@
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
 import { notFound } from 'next/navigation'
 import { UserBadgeClient } from '@/components/user/client-user-badge'
-import Container from '../components/ui/container'
 import ContentGrid from '../components/grids/content-grid'
+import Container from '../components/ui/container'
 import { ChatProvider } from '../contexts/chat-context'
 
 export default async function RootLayout({

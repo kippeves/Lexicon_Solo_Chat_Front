@@ -29,7 +29,7 @@ const nextConfig: NextConfig = {
 			},
 			{
 				protocol: 'https',
-				hostname: 'https://cdn.discordapp.com',
+				hostname: 'cdn.discordapp.com',
 				port: '',
 				pathname: '/avatars/**',
 			},
