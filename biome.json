@@ -19,6 +19,13 @@
 				"useSemanticElements": "off",
 				"useKeyWithClickEvents": "off"
 			},
+			"correctness": {
+				"noUnusedImports": {
+					"level": "info",
+					"options": {},
+					"fix": "safe"
+				}
+			},
 			"suspicious": "off"
 		}
 	},

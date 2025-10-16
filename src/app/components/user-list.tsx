@@ -1,29 +1,28 @@
 import type { Signal } from '@preact/signals-react'
 import { For } from '@preact/signals-react/utils'
-import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar'
+import Image from 'next/image'
 import type { User } from '@/app/validators/users'
 
 export default function UserList({ users }: { users: Signal<User[]> }) {
 	return (
-		<For each={users} fallback={<p>No Messages</p>}>
+		<For each={users}>
 			{(item) => (
-				<div
+				<figure
 					key={item.id}
-					className="flex flex-col gap-3 w-30 justify-center text-center"
+					className="flex flex-col items-center gap-2 w-25 text-center "
 				>
-					<Avatar className="w-30 h-auto">
-						<AvatarImage src={item.avatar} />
-						<AvatarFallback>
-							{[
-								...item.name
-									.split(' ')
-									.map((v) => v[0].toUpperCase())
-									.join(''),
-							]}
-						</AvatarFallback>
-					</Avatar>
-					<p className="wrap-anywhere">{item.name}</p>
-				</div>
+					<Image
+						src={item.avatar}
+						alt={item.name}
+						width={96}
+						height={96}
+						className="rounded-md"
+						priority
+					/>
+					<figcaption>
+						<span className="text-wrap">{item.name}</span>
+					</figcaption>
+				</figure>
 			)}
 		</For>
 	)

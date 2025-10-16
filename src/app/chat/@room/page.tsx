@@ -5,7 +5,7 @@ import { createRoom } from '@/app/chat/actions'
 import CreateOrJoin from '@/app/components/create-or-join'
 import Loader from '@/app/components/ui/loader'
 import { useChat } from '@/app/contexts/chat-context'
-import type { Message } from '@/app/validators/messages'
+import type { LobbyMessage } from '@/app/validators/lobby'
 import { usePartyRoom } from '../utils/createPartyServer'
 
 function Lobby() {
@@ -13,14 +13,14 @@ function Lobby() {
 	const { host: hostURI, token } = useChat()
 	if (hostURI === undefined) throw 'lol'
 	const [creating, setCreating] = useState(false)
-	const handleUpdates = (e: Message) => {
-		console.log(e)
-	}
-	const { connected, ws } = usePartyRoom({
+	const [events, setEvents] = useState<LobbyMessage[]>([])
+	const { connected } = usePartyRoom<LobbyMessage>({
 		host: hostURI,
 		token,
 		party: 'lobby',
-		onUpdate: handleUpdates,
+		onUpdate: (newEvent) => {
+			setEvents((prev) => [...prev, newEvent])
+		},
 	})
 
 	async function openRoom() {
@@ -32,7 +32,11 @@ function Lobby() {
 		connected && (
 			<article className="grow flex flex-col justify-between">
 				{creating && <Loader text="Creating Room..." />}
-				<div></div>
+				<ul>
+					{events.map((e, i) => (
+						<li key={i}>{JSON.stringify(e.payload)}</li>
+					))}
+				</ul>
 				<CreateOrJoin onCreating={openRoom} />
 			</article>
 		)

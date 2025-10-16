@@ -12,8 +12,7 @@ const ChatStateContext = React.createContext<
 >(undefined)
 
 function ChatProvider({ host, token, children }: ChatProviderProps) {
-	// NOTE: you *might* need to memoize this value
-	// Learn more in http://kcd.im/optimize-context
+	
 	const value = { host, token }
 	return (
 		<ChatStateContext.Provider value={value}>

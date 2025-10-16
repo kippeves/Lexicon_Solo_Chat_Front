@@ -1,4 +1,3 @@
-export default async function Page(props: PageProps<'/chat/[id]'>) {
-	const { id } = await props.params
-	return <div>{id}</div>
+export default async function Default() {
+	return null
 }
