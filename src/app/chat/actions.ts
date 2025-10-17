@@ -1,15 +1,16 @@
-'use server'
-import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
-import PartySocket from 'partysocket'
-import { LobbyMessageSchema, type LobbyRoom } from '@/app/validators/lobby'
+'use server';
+import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
+import PartySocket from 'partysocket';
+import { LobbyMessageSchema, type LobbyRoom } from '@/app/validators/lobby';
+import type { User } from '@/app/validators/users';
 
-const user = getKindeServerSession()
-const host = process.env.PARTYKIT
-const room = 'main'
+const user = getKindeServerSession();
+const host = process.env.PARTYKIT;
+const room = 'main';
 
 export async function loadEvents(id: string) {
-	const token = await user.getIdTokenRaw()
-	if (!(host && token)) return undefined
+	const token = await user.getIdTokenRaw();
+	if (!(host && token)) return undefined;
 	return await PartySocket.fetch(
 		{ host, party: 'room', room: id },
 		{
@@ -18,15 +19,15 @@ export async function loadEvents(id: string) {
 		},
 	).then(async (res) => {
 		if (res.ok) {
-			const result = await res.json()
-			return result
+			const result = await res.json();
+			return result;
 		}
-	})
+	});
 }
 
 export async function loadRooms() {
-	const token = await user.getIdTokenRaw()
-	if (!(host && token)) return undefined
+	const token = await user.getIdTokenRaw();
+	if (!(host && token)) return undefined;
 	return await PartySocket.fetch(
 		{ host, party: 'lobby', room: 'main', path: 'rooms' },
 		{
@@ -34,16 +35,28 @@ export async function loadRooms() {
 			headers: { Authorization: token },
 		},
 	).then(async (res) => {
-		if (res.ok) {
-			return (await res.json()) as LobbyRoom[]
-		}
-	})
+		return (await res.json()) as LobbyRoom[];
+	});
+}
+
+export async function getUsers(id?: string) {
+	const token = await user.getIdTokenRaw();
+	if (!(host && token)) return undefined;
+	return await PartySocket.fetch(
+		{ host, party: 'users', room: id ?? 'main' },
+		{
+			method: 'GET',
+			headers: { Authorization: token },
+		},
+	).then(async (res) => {
+		return (await res.json()) as User[];
+	});
 }
 
 export async function createRoom() {
 	try {
-		const token = await user.getIdTokenRaw()
-		if (!(host && token)) return
+		const token = await user.getIdTokenRaw();
+		if (!(host && token)) return;
 		return await PartySocket.fetch(
 			{ host, party: 'lobby', room },
 			{
@@ -52,17 +65,17 @@ export async function createRoom() {
 				headers: { Authorization: token },
 			},
 		).then(async (res) => {
-			const body = await res.json()
-			const { success, data } = await LobbyMessageSchema.safeParseAsync(body)
-			if (!success || data.type !== 'create') return
-			const { id } = data.payload
-			return id
-		})
+			const body = await res.json();
+			const { success, data } = await LobbyMessageSchema.safeParseAsync(body);
+			if (!success || data.type !== 'create') return;
+			const { id } = data.payload;
+			return id;
+		});
 	} catch (e) {
-		console.log(e)
+		console.log(e);
 	}
 }
 
 export async function joinRoom(code: string) {
-	console.log(code)
+	console.log(code);
 }

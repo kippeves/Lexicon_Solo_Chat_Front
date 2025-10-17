@@ -7,7 +7,7 @@ async function ChatRoomPage({ params }: PageProps<'/chat/[id]'>) {
 	const { id } = await params
 	const events = loadEvents(id)
 	return (
-		<Suspense fallback={<Loader text="Loading Events..." />}>
+		<Suspense fallback={<Loader />}>
 			<ChatRoom initData={events} />
 		</Suspense>
 	)
