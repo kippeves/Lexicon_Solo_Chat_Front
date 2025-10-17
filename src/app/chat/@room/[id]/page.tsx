@@ -1,9 +1,11 @@
 'use client'
+import { AvatarImage } from '@radix-ui/react-avatar'
 import { Pencil } from 'lucide-react'
 import { useParams } from 'next/navigation'
 import { useActionState, useId, useState } from 'react'
 import { useChat } from '@/app/contexts/chat-context'
 import type { ChatRoomEvent } from '@/app/validators/messages'
+import { Avatar } from '@/components/ui/avatar'
 import {
 	InputGroup,
 	InputGroupAddon,
@@ -40,7 +42,7 @@ function ChatRoomPage() {
 
 	return (
 		<article className="h-full flex flex-col gap-4">
-			<ul className="grow ">
+			<ul className="grow flex flex-col gap-3">
 				{events.map((e, i) => (
 					<Message key={i} event={e} />
 				))}
@@ -77,9 +79,25 @@ const Message = ({ event }: { event: ChatRoomEvent }) => {
 	switch (type) {
 		case 'server:message':
 			return (
-				<li>
-					[{payload.sent.toLocaleString('sv-SE')}] {payload.user.name} -{' '}
-					{payload.message}
+				<li className="flex gap-4 place-items-center">
+					<Avatar className="h-14 w-auto">
+						<AvatarImage src={payload.user.avatar} />
+					</Avatar>
+					<div className="flex flex-col justify-evenly">
+						<p className="flex gap-2">
+							<span>{payload.user.name}</span>
+							<span className="font-light text-gray-400">
+								{new Date(payload.sent).toLocaleString('sv-SE', {
+									year: 'numeric',
+									month: 'numeric',
+									day: 'numeric',
+									hour: '2-digit',
+									minute: '2-digit',
+								})}
+							</span>
+						</p>
+						<p>{payload.message}</p>
+					</div>
 				</li>
 			)
 	}
