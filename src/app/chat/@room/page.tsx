@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import { loadRooms } from '@/app/chat/actions'
 import Lobby from '@/app/components/lobby'
+import Loader from '@/app/components/ui/loader'
 
 function LobbyPage() {
 	const URI = process.env.PARTYKIT
@@ -11,7 +12,7 @@ function LobbyPage() {
 
 	return (
 		task && (
-			<Suspense>
+			<Suspense fallback={<Loader />}>
 				<Lobby task={task} />
 			</Suspense>
 		)

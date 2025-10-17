@@ -1,12 +1,33 @@
-import type { Signal } from '@preact/signals-react'
-import { For } from '@preact/signals-react/utils'
-import Image from 'next/image'
-import type { User } from '@/app/validators/users'
+'use client';
+import Image from 'next/image';
+import { useParams } from 'next/navigation';
+import { use, useState } from 'react';
+import { usePartyRoom } from '@/app/chat/utils/createPartyServer';
+import { useChat } from '@/app/contexts/chat-context';
+import type { Presence, User } from '@/app/validators/users';
 
-export default function UserList({ users }: { users: Signal<User[]> }) {
+export default function UserList({
+	task,
+}: {
+	task: Promise<User[] | undefined>;
+}) {
+	const { id } = useParams();
+	const serverParams = useChat();
+	const initUsers = use(task);
+	const [users, setUsers] = useState<User[]>(initUsers ?? []);
+
+	usePartyRoom<Presence>({
+		...serverParams,
+		party: 'users',
+		room: id?.toString() ?? 'main',
+		onUpdate: ({ type, payload }) => {
+			if (type === 'presence') setUsers(payload.users);
+		},
+	});
+
 	return (
-		<For each={users}>
-			{(item) => (
+		<>
+			{users.map((item) => (
 				<figure
 					key={item.id}
 					className="flex flex-col items-center gap-2 w-25 text-center "
@@ -16,14 +37,15 @@ export default function UserList({ users }: { users: Signal<User[]> }) {
 						alt={item.name}
 						width={96}
 						height={96}
+						placeholder="empty"
 						className="rounded-md"
-						priority
+						loading="eager"
 					/>
 					<figcaption>
 						<span className="text-wrap">{item.name}</span>
 					</figcaption>
 				</figure>
-			)}
-		</For>
-	)
+			))}
+		</>
+	);
 }

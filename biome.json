@@ -15,6 +15,9 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
+			"complexity": {
+				"noUselessFragments": "off"
+			},
 			"a11y": {
 				"useSemanticElements": "off",
 				"useKeyWithClickEvents": "off"
@@ -31,8 +34,7 @@
 	},
 	"javascript": {
 		"formatter": {
-			"quoteStyle": "single",
-			"semicolons": "asNeeded"
+			"quoteStyle": "single"
 		}
 	},
 	"assist": {
