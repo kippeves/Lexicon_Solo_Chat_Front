@@ -1,16 +1,13 @@
 'use server'
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
 import PartySocket from 'partysocket'
-import { LobbyMessageSchema } from '@/app/validators/lobby'
-import type { ChatRoomEvent } from '@/app/validators/messages'
+import { LobbyMessageSchema, type LobbyRoom } from '@/app/validators/lobby'
 
 const user = getKindeServerSession()
 const host = process.env.PARTYKIT
 const room = 'main'
 
-export async function loadEvents(
-	id: string,
-): Promise<ChatRoomEvent[] | undefined> {
+export async function loadEvents(id: string) {
 	const token = await user.getIdTokenRaw()
 	if (!(host && token)) return undefined
 	return await PartySocket.fetch(
@@ -23,6 +20,22 @@ export async function loadEvents(
 		if (res.ok) {
 			const result = await res.json()
 			return result
+		}
+	})
+}
+
+export async function loadRooms() {
+	const token = await user.getIdTokenRaw()
+	if (!(host && token)) return undefined
+	return await PartySocket.fetch(
+		{ host, party: 'lobby', room: 'main', path: 'rooms' },
+		{
+			method: 'GET',
+			headers: { Authorization: token },
+		},
+	).then(async (res) => {
+		if (res.ok) {
+			return (await res.json()) as LobbyRoom[]
 		}
 	})
 }
