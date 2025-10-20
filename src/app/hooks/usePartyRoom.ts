@@ -18,7 +18,7 @@ export const usePartyRoom = <T>({
 }: PartyParams<T>): { connected: boolean; ws: PartySocket } => {
 	const [connected, setConnected] = useState(false)
 	const params = { host, party, room }
-
+	
 	const ws = usePartySocket({
 		...params,
 		onError(event) {

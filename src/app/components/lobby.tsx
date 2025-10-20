@@ -8,7 +8,8 @@ import CreateOrJoin from '@/app/components/create-or-join';
 import Loader from '@/app/components/ui/loader';
 import { useChat } from '@/app/contexts/chat-context';
 import { usePartyRoom } from '@/app/hooks/usePartyRoom';
-import type { LobbyMessage, LobbyRoom } from '@/app/validators/lobby';
+import type { LobbyServerEvent } from '@/app/validators/lobby/server';
+import type { LobbyRoom } from '@/app/validators/lobbyroom';
 
 export default function Lobby({
 	task,
@@ -16,14 +17,12 @@ export default function Lobby({
 	task: Promise<LobbyRoom[] | undefined>;
 }) {
 	const { replace } = useRouter();
-	const { host: hostURI, token } = useChat();
-	if (hostURI === undefined) throw 'lol';
+	const serverParams = useChat();
 	const [creating, setCreating] = useState(false);
 	const initValues = use(task);
 	const [rooms, setRooms] = useState<LobbyRoom[]>(initValues ?? []);
-	const { connected } = usePartyRoom<LobbyMessage>({
-		host: hostURI,
-		token,
+	const { connected } = usePartyRoom<LobbyServerEvent>({
+		...serverParams,
 		party: 'lobby',
 		onUpdate: ({ type, payload }) => {
 			setRooms((prev) => {

@@ -8,7 +8,6 @@ import type { Presence, User } from '@/app/validators/users';
 export default function UserList({ id }: { id?: string }) {
 	const serverParams = useChat();
 	const [users, setUsers] = useState<User[]>([]);
-
 	const params: PartyParams<Presence> = {
 		...serverParams,
 		party: 'users',
