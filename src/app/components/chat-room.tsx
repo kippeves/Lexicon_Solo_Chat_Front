@@ -1,40 +1,40 @@
-'use client'
-import { Pencil } from 'lucide-react'
-import Image from 'next/image'
-import { useParams } from 'next/navigation'
-import { use, useActionState, useId, useState } from 'react'
-import { usePartyRoom } from '@/app/chat/utils/createPartyServer'
-import { useChat } from '@/app/contexts/chat-context'
-import type { ChatRoomEvent } from '@/app/validators/messages'
+'use client';
+import { Pencil } from 'lucide-react';
+import Image from 'next/image';
+import { useParams } from 'next/navigation';
+import { use, useActionState, useId, useState } from 'react';
+import { useChat } from '@/app/contexts/chat-context';
+import { usePartyRoom } from '@/app/hooks/usePartyRoom';
+import type { ChatRoomEvent } from '@/app/validators/messages';
 import {
 	InputGroup,
 	InputGroupAddon,
 	InputGroupButton,
 	InputGroupInput,
-} from '@/components/ui/input-group'
+} from '@/components/ui/input-group';
 
 export default function ChatRoom({
 	initData,
 }: {
-	initData: Promise<ChatRoomEvent[] | undefined>
+	initData: Promise<ChatRoomEvent[] | undefined>;
 }) {
-	const { host: hostURI, token } = useChat()
-	if (hostURI === undefined) throw 'lol'
-	const { id } = useParams()
-	const initEventData = use(initData)
-	const [events, setEvents] = useState<ChatRoomEvent[]>(initEventData ?? [])
+	const { host: hostURI, token } = useChat();
+	if (hostURI === undefined) throw 'lol';
+	const { id } = useParams();
+	const initEventData = use(initData);
+	const [events, setEvents] = useState<ChatRoomEvent[]>(initEventData ?? []);
 
 	const action = async (_: unknown, queryData: FormData) => {
-		const message = queryData.get('message')
+		const message = queryData.get('message');
 		try {
-			ws.send(JSON.stringify({ type: 'user:message', payload: { message } }))
-			return { success: true }
+			ws.send(JSON.stringify({ type: 'user:message', payload: { message } }));
+			return { success: true };
 		} catch {
-			return { success: false }
+			return { success: false };
 		}
-	}
+	};
 
-	const [_, formAction, isPending] = useActionState(action, null)
+	const [_, formAction, isPending] = useActionState(action, null);
 
 	const { ws } = usePartyRoom<ChatRoomEvent>({
 		host: hostURI,
@@ -42,7 +42,7 @@ export default function ChatRoom({
 		party: 'room',
 		room: id?.toString(),
 		onUpdate: (e) => setEvents((prev) => [...prev, e]),
-	})
+	});
 
 	return (
 		<article className="h-full flex flex-col gap-4">
@@ -75,11 +75,11 @@ export default function ChatRoom({
 				</InputGroup>
 			</form>
 		</article>
-	)
+	);
 }
 
 const Message = ({ event }: { event: ChatRoomEvent }) => {
-	const { type, payload } = event
+	const { type, payload } = event;
 	switch (type) {
 		case 'server:message':
 			return (
@@ -109,6 +109,6 @@ const Message = ({ event }: { event: ChatRoomEvent }) => {
 						<p>{payload.message}</p>
 					</div>
 				</li>
-			)
+			);
 	}
-}
+};

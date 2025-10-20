@@ -1,4 +1,5 @@
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
+import type { Route } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { UserBadgeClient } from '@/components/user/client-user-badge';
@@ -18,7 +19,7 @@ export default async function RootLayout({
 		<ContentGrid className="h-dvh grid-rows-[auto_1fr] pt-3 space-y-4">
 			<header className="rounded-lg p-5 bg-white border-b-2">
 				<nav className="flex justify-between items-center">
-					<Link href={'/chat'}>
+					<Link href={'/chat' as Route}>
 						<h1 className="text-4xl font-bold">Chat</h1>
 					</Link>
 					<UserBadgeClient />

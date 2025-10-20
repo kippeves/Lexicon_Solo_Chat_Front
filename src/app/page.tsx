@@ -1,13 +1,14 @@
-import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
-import { UserBadgeClient } from '@/components/user/client-user-badge'
-import ContentGrid from './components/grids/content-grid'
+import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
+import type { Route } from 'next';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { UserBadgeClient } from '@/components/user/client-user-badge';
+import ContentGrid from './components/grids/content-grid';
 
 export default async function Home() {
-	const session = await getKindeServerSession()
-	const user = await session.getUser()
+	const session = await getKindeServerSession();
+	const user = await session.getUser();
 	return (
 		<ContentGrid className="h-dvh items-center">
 			<Card className="m-auto w-[40rem] border-0 acrylic">
@@ -20,12 +21,12 @@ export default async function Home() {
 						</>
 					)}
 					<Button variant={'outline'} className="w-fit p-8">
-						<Link className="text-4xl" href={'/chat'}>
+						<Link className="text-4xl" href={'/chat' as Route}>
 							Gå till chat
 						</Link>
 					</Button>
 				</CardContent>
 			</Card>
 		</ContentGrid>
-	)
+	);
 }
