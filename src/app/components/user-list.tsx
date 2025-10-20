@@ -1,29 +1,22 @@
 'use client';
 import Image from 'next/image';
-import { useParams } from 'next/navigation';
-import { use, useState } from 'react';
-import { usePartyRoom } from '@/app/chat/utils/createPartyServer';
+import { useState } from 'react';
 import { useChat } from '@/app/contexts/chat-context';
+import { type PartyParams, usePartyRoom } from '@/app/hooks/usePartyRoom';
 import type { Presence, User } from '@/app/validators/users';
 
-export default function UserList({
-	task,
-}: {
-	task: Promise<User[] | undefined>;
-}) {
-	const { id } = useParams();
+export default function UserList({ id }: { id?: string }) {
 	const serverParams = useChat();
-	const initUsers = use(task);
-	const [users, setUsers] = useState<User[]>(initUsers ?? []);
+	const [users, setUsers] = useState<User[]>([]);
 
-	usePartyRoom<Presence>({
+	const params: PartyParams<Presence> = {
 		...serverParams,
 		party: 'users',
 		room: id?.toString() ?? 'main',
-		onUpdate: ({ type, payload }) => {
-			if (type === 'presence') setUsers(payload.users);
-		},
-	});
+		onUpdate: ({ payload }) => setUsers(payload.users),
+	};
+
+	usePartyRoom<Presence>(params);
 
 	return (
 		<>

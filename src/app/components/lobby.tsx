@@ -4,10 +4,10 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { use, useState } from 'react';
 import { createRoom } from '@/app/chat/actions';
-import { usePartyRoom } from '@/app/chat/utils/createPartyServer';
 import CreateOrJoin from '@/app/components/create-or-join';
 import Loader from '@/app/components/ui/loader';
 import { useChat } from '@/app/contexts/chat-context';
+import { usePartyRoom } from '@/app/hooks/usePartyRoom';
 import type { LobbyMessage, LobbyRoom } from '@/app/validators/lobby';
 
 export default function Lobby({
@@ -21,13 +21,40 @@ export default function Lobby({
 	const [creating, setCreating] = useState(false);
 	const initValues = use(task);
 	const [rooms, setRooms] = useState<LobbyRoom[]>(initValues ?? []);
-	const [events, setEvents] = useState<LobbyMessage[]>([]);
 	const { connected } = usePartyRoom<LobbyMessage>({
 		host: hostURI,
 		token,
 		party: 'lobby',
-		onUpdate: (newEvent) => {
-			setEvents((prev) => [...prev, newEvent]);
+		onUpdate: ({ type, payload }) => {
+			setRooms((prev) => {
+				switch (type) {
+					case 'create':
+						return [...prev, payload];
+					case 'close':
+						return prev.filter((room) => room.id !== payload.roomId);
+					case 'join': {
+						const { roomId, user } = payload;
+						return prev.map((room) =>
+							room.id === roomId
+								? { ...room, users: [...room.users, user] }
+								: room,
+						);
+					}
+					case 'leave': {
+						const { id: userId, roomId } = payload;
+						return prev.map((room) =>
+							room.id === roomId
+								? {
+										...room,
+										users: room.users.filter((u) => u.id !== userId),
+									}
+								: room,
+						);
+					}
+					default:
+						return prev;
+				}
+			});
 		},
 	});
 
