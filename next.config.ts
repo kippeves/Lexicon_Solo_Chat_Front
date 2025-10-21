@@ -1,4 +1,4 @@
-import type { NextConfig } from 'next'
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
 	typedRoutes: true,
@@ -12,6 +12,7 @@ const nextConfig: NextConfig = {
 			process.env.KINDE_POST_LOGIN_REDIRECT_URL ??
 			`https://${process.env.VERCEL_URL}/chat`,
 	},
+	allowedDevOrigins: ['192.168.2.37', '192.168.2.40'],
 	images: {
 		minimumCacheTTL: 604800, // 7 days
 		remotePatterns: [
@@ -35,6 +36,6 @@ const nextConfig: NextConfig = {
 			},
 		],
 	},
-}
+};
 
-export default nextConfig
+export default nextConfig;
