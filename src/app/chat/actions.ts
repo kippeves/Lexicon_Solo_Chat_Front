@@ -102,7 +102,7 @@ export async function loadRooms(): Promise<LobbyRoom[] | undefined> {
 			party: 'lobby',
 			room: 'main',
 		});
-	} catch (error) {
+	} catch {
 		return undefined;
 	}
 }
@@ -116,7 +116,7 @@ export async function getUsers(id?: string): Promise<User[] | undefined> {
 			room: 'main',
 			id,
 		});
-	} catch (error) {
+	} catch {
 		return undefined;
 	}
 }

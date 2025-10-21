@@ -1,5 +1,5 @@
-import type React from 'react'
-import { cn } from '@/lib/utils'
+import type React from 'react';
+import { cn } from '@/lib/utils';
 
 function Container({
 	children,
@@ -9,7 +9,7 @@ function Container({
 		<div className={cn('bg-white rounded-lg shadow p-4', className)}>
 			{children}
 		</div>
-	)
+	);
 }
 
-export default Container
+export default Container;

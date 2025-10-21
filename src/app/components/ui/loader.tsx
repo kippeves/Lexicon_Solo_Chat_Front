@@ -1,5 +1,5 @@
-import { Spinner } from '@/components/ui/spinner'
-import { cn } from '@/lib/utils'
+import { Spinner } from '@/components/ui/spinner';
+import { cn } from '@/lib/utils';
 
 function Loader({ text }: { text?: string }) {
 	return (
@@ -9,7 +9,7 @@ function Loader({ text }: { text?: string }) {
 				{text && <p className="text-2xl">{text}</p>}
 			</div>
 		</div>
-	)
+	);
 }
 
-export default Loader
+export default Loader;

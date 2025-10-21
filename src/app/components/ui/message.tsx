@@ -31,3 +31,5 @@ export const Message = memo(({ item }: { item: ChatRoomMessageServer }) => {
 		</li>
 	);
 });
+
+Message.displayName = 'Message';

@@ -1,5 +1,5 @@
-import type { KindeUser } from '@kinde-oss/kinde-auth-nextjs/types'
+import type { KindeUser } from '@kinde-oss/kinde-auth-nextjs/types';
 
 export interface UserBadgeProps {
-	user: KindeUser | null
+	user: KindeUser | null;
 }

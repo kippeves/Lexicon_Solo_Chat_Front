@@ -1,12 +1,12 @@
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 export default function CreateOrJoin({
 	onCreating,
 }: {
-	onCreating: () => void
+	onCreating: () => void;
 }) {
-	const createRoom = () => onCreating()
+	const createRoom = () => onCreating();
 	return (
 		<div className="flex flex-col gap-2 self-end w-75">
 			<Button
@@ -32,5 +32,5 @@ export default function CreateOrJoin({
 				</Button>
 			</div>
 		</div>
-	)
+	);
 }

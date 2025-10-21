@@ -1,13 +1,12 @@
-'use client'
+'use client';
 
-import { LogoutLink, useKindeAuth } from '@kinde-oss/kinde-auth-nextjs'
-import { LogOut, Mail } from 'lucide-react'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
+import { LogoutLink, useKindeAuth } from '@kinde-oss/kinde-auth-nextjs';
+import { Mail } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Card, CardContent } from '@/components/ui/card';
 
 export function UserBadgeClient() {
-	const { user, isLoading } = useKindeAuth()
+	const { user, isLoading } = useKindeAuth();
 
 	if (isLoading) {
 		return (
@@ -18,18 +17,18 @@ export function UserBadgeClient() {
 					</div>
 				</CardContent>
 			</Card>
-		)
+		);
 	}
 	// Get initials for avatar fallback
 	const getInitials = (name: string | null | undefined) => {
-		if (!name) return 'U'
+		if (!name) return 'U';
 		return name
 			.split(' ')
 			.map((n) => n[0])
 			.join('')
 			.toUpperCase()
-			.slice(0, 2)
-	}
+			.slice(0, 2);
+	};
 
 	return (
 		user && (
@@ -66,5 +65,5 @@ export function UserBadgeClient() {
 				</CardContent>
 			</Card>
 		)
-	)
+	);
 }

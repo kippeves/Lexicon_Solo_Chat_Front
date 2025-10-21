@@ -47,8 +47,8 @@ export default function ChatRoom({
 
 	const groupedMessages = useMemo(() => {
 		return messages
-			? Object.groupBy(messages, (m) =>
-					new Date(m.sent).toLocaleDateString('sv-SE', {
+			? Object.groupBy(messages, (message) =>
+					new Date(message.sent).toLocaleDateString('sv-SE', {
 						month: 'long',
 						day: '2-digit',
 						year: 'numeric',
@@ -61,10 +61,10 @@ export default function ChatRoom({
 		_: ChatRoomClientMessage,
 		data: FormData,
 	): Promise<ChatRoomClientMessage> => {
-		return sendMessage(init, data).then((s) => {
-			switch (s.type) {
+		return sendMessage(init, data).then((state) => {
+			switch (state.type) {
 				case 'error':
-					return s;
+					return state;
 				case 'init':
 				case 'return': {
 					return init;
@@ -73,7 +73,8 @@ export default function ChatRoom({
 		});
 	};
 
-	const [_, formAction, isPending] = useActionState(message, init);
+	const [, formAction, isPending] = useActionState(message, init);
+
 	const { ws } = usePartyRoom<ChatRoomServerEvent>({
 		...hostParams,
 		party: 'room',
