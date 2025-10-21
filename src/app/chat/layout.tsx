@@ -16,9 +16,9 @@ export default async function RootLayout({
 	const host = process.env.PARTYKIT;
 	if (!(host && token)) return notFound();
 	return (
-		<ContentGrid className="h-dvh grid-rows-[auto_1fr] pt-3 space-y-4">
+		<ContentGrid className="grow h-dvh grid-rows-[auto_1fr_auto] pt-3 space-y-4">
 			<header className="rounded-lg p-5 bg-white border-b-2">
-				<nav className="flex justify-between items-center">
+				<nav className="flex justify-between items-center ps-4">
 					<Link href={'/chat' as Route}>
 						<h1 className="text-4xl font-bold">Chat</h1>
 					</Link>
@@ -26,9 +26,11 @@ export default async function RootLayout({
 				</nav>
 			</header>
 			<ChatProvider host={host} token={token}>
-				<div className="grid grid-rows-[1fr_11rem] p-0 space-y-4">
-					<Container className="flex flex-col">{room}</Container>
-					<Container className="flex gap-4">{users}</Container>
+				<div className="grid grid-rows-[1fr_auto] overflow-y-auto p-0 space-y-4">
+					<Container className="flex flex-col grow overflow-y-auto">
+						{room}
+					</Container>
+					<Container className="flex gap-4 min-h-">{users}</Container>
 				</div>
 			</ChatProvider>
 			<footer />

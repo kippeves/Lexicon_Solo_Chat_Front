@@ -1,18 +1,18 @@
-import { Mail } from 'lucide-react'
-import type { UserBadgeProps } from '@/app/types'
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
+import { Mail } from 'lucide-react';
+import type { UserBadgeProps } from '@/app/types';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 
 function UserInfo({ user }: UserBadgeProps) {
 	// Get initials for avatar fallback
 	const getInitials = (name: string | null | undefined) => {
-		if (!name) return 'U'
+		if (!name) return 'U';
 		return name
 			.split(' ')
 			.map((n) => n[0])
 			.join('')
 			.toUpperCase()
-			.slice(0, 2)
-	}
+			.slice(0, 2);
+	};
 
 	return (
 		user && (
@@ -39,7 +39,7 @@ function UserInfo({ user }: UserBadgeProps) {
 				</div>
 			</div>
 		)
-	)
+	);
 }
 
-export default UserInfo
+export default UserInfo;

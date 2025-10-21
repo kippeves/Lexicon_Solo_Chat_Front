@@ -30,7 +30,7 @@ export default function UserList({ id }: { id?: string }) {
 						width={96}
 						height={96}
 						placeholder="empty"
-						className="rounded-md"
+						className="rounded-full"
 						loading="eager"
 					/>
 					<figcaption>

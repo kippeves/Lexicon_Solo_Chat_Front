@@ -1,14 +1,14 @@
-import type PartySocket from 'partysocket'
-import usePartySocket from 'partysocket/react'
-import { useState } from 'react'
+import type PartySocket from 'partysocket';
+import usePartySocket from 'partysocket/react';
+import { useState } from 'react';
 
 export type PartyParams<T> = {
-	host: string
-	token: string
-	party: string
-	room?: string
-	onUpdate: (e: T) => void
-}
+	host: string;
+	token: string;
+	party: string;
+	room?: string;
+	onUpdate: (e: T) => void;
+};
 export const usePartyRoom = <T>({
 	host,
 	token,
@@ -16,24 +16,24 @@ export const usePartyRoom = <T>({
 	onUpdate,
 	room = 'main',
 }: PartyParams<T>): { connected: boolean; ws: PartySocket } => {
-	const [connected, setConnected] = useState(false)
-	const params = { host, party, room }
-	
+	const [connected, setConnected] = useState(false);
+	const params = { host, party, room };
+
 	const ws = usePartySocket({
 		...params,
 		onError(event) {
-			console.log({ message: 'error', event })
+			console.log({ message: 'error', event });
 		},
-		onOpen(_event) {
-			setConnected(true)
+		onOpen() {
+			setConnected(true);
 		},
 		onMessage(e) {
-			const data = JSON.parse(e.data) as T
-			onUpdate(data)
+			const data = JSON.parse(e.data) as T;
+			onUpdate(data);
 		},
 		query: async () => ({
 			token,
 		}),
-	})
-	return { connected, ws }
-}
+	});
+	return { connected, ws };
+};
