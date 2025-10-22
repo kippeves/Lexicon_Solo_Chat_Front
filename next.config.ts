@@ -4,13 +4,14 @@ const nextConfig: NextConfig = {
 	typedRoutes: true,
 	env: {
 		KINDE_SITE_URL:
-			process.env.KINDE_SITE_URL ?? `https://${process.env.VERCEL_URL}`,
+			process.env.KINDE_SITE_URL ??
+			`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`,
 		KINDE_POST_LOGOUT_REDIRECT_URL:
 			process.env.KINDE_POST_LOGOUT_REDIRECT_URL ??
-			`https://${process.env.VERCEL_URL}`,
+			`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`,
 		KINDE_POST_LOGIN_REDIRECT_URL:
 			process.env.KINDE_POST_LOGIN_REDIRECT_URL ??
-			`https://${process.env.VERCEL_URL}/chat`,
+			`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}/chat`,
 	},
 	allowedDevOrigins: ['192.168.2.37', '192.168.2.40'],
 	images: {
