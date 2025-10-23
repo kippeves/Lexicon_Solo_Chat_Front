@@ -7,8 +7,16 @@ export type LobbyServerEvent = z.infer<typeof LobbyServerEventSchema>;
 export const LobbyServerEventSchema = z
 	.object({
 		type: z.literal('create'),
-		payload: LobbyRoomSchema,
+		payload: z.object({ room: LobbyRoomSchema }),
 	})
+	.or(
+		z.object({
+			type: z.literal('roomlist'),
+			payload: z.object({
+				rooms: z.array(LobbyRoomSchema),
+			}),
+		}),
+	)
 	.or(
 		z.object({
 			type: z.literal('close'),
@@ -17,19 +25,10 @@ export const LobbyServerEventSchema = z
 	)
 	.or(
 		z.object({
-			type: z.literal('join'),
+			type: z.literal('update'),
 			payload: z.object({
 				roomId: z.string(),
-				user: UserSchema,
-			}),
-		}),
-	)
-	.or(
-		z.object({
-			type: z.literal('leave'),
-			payload: z.object({
-				roomId: z.string(),
-				id: z.string(),
+				users: z.array(UserSchema),
 			}),
 		}),
 	);

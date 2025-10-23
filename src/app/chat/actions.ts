@@ -124,7 +124,7 @@ export async function getUsers(id?: string): Promise<User[] | undefined> {
 export async function createRoom(): Promise<string | undefined> {
 	try {
 		const action: LobbyClientEvent = { type: 'create', payload: {} };
-		const body = await fetchWithAuth({
+		const body = await fetchWithAuth<LobbyRoom>({
 			path: '',
 			options: {
 				method: 'POST',
@@ -133,9 +133,13 @@ export async function createRoom(): Promise<string | undefined> {
 			party: 'lobby',
 			room,
 		});
+		console.log(body);
 		const { success, data } = await LobbyServerEventSchema.safeParseAsync(body);
-		if (!success || data.type !== 'create') return undefined;
-		const { id } = data.payload;
+		if (!success || data.type !== 'create') {
+			console.log('not create');
+			return undefined;
+		}
+		const { id } = data.payload.room;
 		return id;
 	} catch (e) {
 		console.error(e);

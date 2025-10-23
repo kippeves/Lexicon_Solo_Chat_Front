@@ -3,16 +3,16 @@ import * as React from 'react';
 
 type ChatProviderProps = {
 	host: string;
-	token: string;
 	children: React.ReactNode;
 };
 
-const ChatStateContext = React.createContext<
-	{ host: string; token: string } | undefined
->(undefined);
+const ChatStateContext = React.createContext<{ host: string } | undefined>(
+	undefined,
+);
 
-function ChatProvider({ host, token, children }: ChatProviderProps) {
-	const value = { host, token };
+function ChatProvider({ host, children }: ChatProviderProps) {
+	if (!host) return;
+	const value = { host };
 	return (
 		<ChatStateContext.Provider value={value}>
 			{children}

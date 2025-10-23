@@ -6,15 +6,14 @@ import { UserBadgeClient } from '@/components/user/client-user-badge';
 import ContentGrid from '../components/grids/content-grid';
 import Container from '../components/ui/container';
 import { ChatProvider } from '../contexts/chat-context';
+import { useKindeAuth } from '@kinde-oss/kinde-auth-nextjs';
 
 export default async function RootLayout({
 	room,
 	users,
 }: LayoutProps<'/chat'>) {
-	const user = getKindeServerSession();
-	const token = await user.getIdTokenRaw();
 	const host = process.env.PARTYKIT;
-	if (!(host && token)) return notFound();
+	if (!host) return notFound();
 	return (
 		<ContentGrid className="grow h-dvh grid-rows-[auto_1fr_auto] pt-3 space-y-4">
 			<header className="rounded-lg p-5 bg-white border-b-2">
@@ -25,12 +24,12 @@ export default async function RootLayout({
 					<UserBadgeClient />
 				</nav>
 			</header>
-			<ChatProvider host={host} token={token}>
+			<ChatProvider host={host}>
 				<div className="grid grid-rows-[1fr_auto] overflow-y-auto p-0 space-y-4">
 					<Container className="flex flex-col grow overflow-y-auto">
 						{room}
 					</Container>
-					<Container className="flex gap-4 min-h-">{users}</Container>
+					<Container className="flex gap-4 h-45">{users}</Container>
 				</div>
 			</ChatProvider>
 			<footer />
