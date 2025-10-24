@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Livechatt (Lexicon Solo Chat Frontend)
 
-## Getting Started
+Liten demo av en livechatt-frontend byggd med Next.js, PartyKit (partysocket) och Kinde för autentisering.  
+Syfte: visa upp en realtidschatt med PartyKit för WebSocket-händelser, Kinde för användarautentisering och ett lättviktigt gränssnitt byggt med shadcn/ui + Tailwind.
 
-First, run the development server:
+## Teknologier som använts.
+- Next.js (App Router, React 19, TypeScript)
+- PartyKit / partysocket — realtids WebSocket-händelser & rum/party-modell
+- Kinde (kinde-auth-nextjs) — autentisering / sessionshantering
+- shadcn/ui + Radix UI-primitiver — UI-komponenter
+- Tailwind CSS (v4) + tailwind-merge + clsx
+- Zod — runtime-validering för inkommande/utgående händelser
+- lucide-react — ikoner
+- Biome / ESLint — formatering & lintning
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Funktioner
+- Skapa / gå med i rum (lobby)
+- Realtidsmeddelanden med gruppering av meddelanden per datum
+- Användarnärvaro / avatarmärkning
+- Admin-kontroller: rensa meddelanden, stäng rum
+- Server-side hjälpfunktioner för API-anrop till PartyKit
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Miljö
+Skapa en .env.local med åtminstone följande variabler:
+- PARTYKIT (PartyKit host URL)
+- KINDE_CLIENT_ID, KINDE_ISSUER, KINDE_CLIENT_SECRET, etc. (som krävs av Kinde-konfigurationen)
+- VERCEL_URL eller KINDE_SITE_URL för lokala dev-redirect-fallbacks
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Notera: next.config.ts läser KINDE_* env-värden för redirect-standarder; justera vid behov.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Lokalt uppsättning
+Installera beroenden:
+- npm install
 
-## Learn More
+Utveckling:
+- npm run dev
 
-To learn more about Next.js, take a look at the following resources:
+Bygg:
+- npm run build
+- npm start (produktion)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Formatering / lint:
+- npm run lint-format (använder Biome i detta repo)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Projektstruktur (översikt)
+- src/app — Next.js app-rutter och UI
+- src/components — delade UI-komponenter & ShadCN
+- src/app/validators — Zod-scheman för strukturerade realtids-händelser
+- src/app/chat — chatt-sidor, actions och serverfunktioner
+- src/app/hooks — egna hooks (partysocket-integration)
+- next.config.ts — bilder / env-defaults
 
-## Deploy on Vercel
+## Noteringar
+- Repot förväntar sig en PartyKit-host och en konfigurerad Kinde-tenant för autentisering.
+- Zod-scheman validerar inkommande/utgående websocket-payloads — justera för att matcha eventuella server-side kontraktsändringar.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Licens
+- MIT (justera efter behov)
