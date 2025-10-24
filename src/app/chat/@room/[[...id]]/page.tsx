@@ -1,7 +1,7 @@
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
-import { loadInitialDataForRoom, loadRooms } from '@/app/chat/actions';
+import { loadInitialDataForRoom } from '@/app/chat/actions';
 import ChatRoom from '@/app/components/chat-room';
 import Lobby from '@/app/components/lobby';
 
