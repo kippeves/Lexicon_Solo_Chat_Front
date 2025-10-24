@@ -122,7 +122,7 @@ export default function ChatRoom({
 
 	return (
 		<article className="h-full flex flex-col gap-4 relative">
-			<section className="grow overflow-y-auto">
+			<section className="grow overflow-y-auto overflow-x-clip">
 				{Object.entries(groupedMessages).map(([date, msgs]) => (
 					<div key={date} className="mb-4">
 						<div className="sticky top-0 bg-white text-center text-gray-600">

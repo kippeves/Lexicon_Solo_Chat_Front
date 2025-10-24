@@ -16,7 +16,7 @@ export const Message = memo(({ item }: { item: ChatRoomMessageServer }) => {
 				placeholder="empty"
 				className="rounded-full"
 			/>
-			<div className="flex flex-col justify-evenly">
+			<div className="flex flex-col justify-evenly text-wrap">
 				<p className="flex gap-2">
 					<span className="font-medium">{user.name}</span>
 					<span className="font-light text-gray-400">
@@ -26,7 +26,7 @@ export const Message = memo(({ item }: { item: ChatRoomMessageServer }) => {
 						})}
 					</span>
 				</p>
-				<p>{message}</p>
+				<p className="break-all">{message}</p>
 			</div>
 		</li>
 	);
