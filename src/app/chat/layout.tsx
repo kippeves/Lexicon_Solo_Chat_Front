@@ -1,4 +1,3 @@
-import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
 import type { Route } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -6,7 +5,6 @@ import { UserBadgeClient } from '@/components/user/client-user-badge';
 import ContentGrid from '../components/grids/content-grid';
 import Container from '../components/ui/container';
 import { ChatProvider } from '../contexts/chat-context';
-import { useKindeAuth } from '@kinde-oss/kinde-auth-nextjs';
 
 export default async function RootLayout({
 	room,
