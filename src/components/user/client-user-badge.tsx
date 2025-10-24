@@ -47,9 +47,9 @@ export function UserBadgeClient() {
 							</Avatar>
 						</div>
 						<div className="flex-1 space-y-1">
-							<h3 className="text-xl font-semibold text-foreground">
+							<h2 className="text-xl font-semibold text-foreground">
 								{user.given_name} {user.family_name}
-							</h3>
+							</h2>
 							{user.email && (
 								<div className="flex items-center gap-2 text-sm text-muted-foreground">
 									<Mail className="h-3 w-3" />

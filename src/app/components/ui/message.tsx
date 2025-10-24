@@ -8,7 +8,7 @@ export const Message = memo(({ item }: { item: ChatRoomMessageServer }) => {
 	return (
 		<li className="flex gap-4 place-items-center p-2 hover:bg-gray-50">
 			<Image
-				alt={user.name}
+				alt={''}
 				src={user.avatar}
 				height={55}
 				width={55}

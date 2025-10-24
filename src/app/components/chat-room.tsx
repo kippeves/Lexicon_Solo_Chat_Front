@@ -144,6 +144,7 @@ export default function ChatRoom({
 							placeholder="Message in channel"
 							name="message"
 							autoFocus
+							aria-label="Chatmessage"
 						/>
 						<InputGroupAddon className="hover:cursor-default">
 							<Pencil />

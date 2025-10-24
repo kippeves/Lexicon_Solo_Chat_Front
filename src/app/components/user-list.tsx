@@ -32,7 +32,7 @@ export default function UserList({
 				>
 					<Image
 						src={item.avatar}
-						alt={item.name}
+						alt={''}
 						width={96}
 						height={96}
 						placeholder="empty"
