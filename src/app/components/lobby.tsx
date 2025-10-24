@@ -1,55 +1,51 @@
 'use client';
+import { User2 } from 'lucide-react';
+import type { Route } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { use, useState } from 'react';
+import { useState } from 'react';
 import { createRoom } from '@/app/chat/actions';
-import CreateOrJoin from '@/app/components/create-or-join';
+import Create from '@/app/components/create-or-join';
+import ContentGrid from '@/app/components/grids/content-grid';
 import Loader from '@/app/components/ui/loader';
 import { useChat } from '@/app/contexts/chat-context';
 import { usePartyRoom } from '@/app/hooks/usePartyRoom';
 import type { LobbyServerEvent } from '@/app/validators/lobby/server';
 import type { LobbyRoom } from '@/app/validators/lobbyroom';
+import type { User } from '@/app/validators/users';
+import {
+	HoverCard,
+	HoverCardContent,
+	HoverCardTrigger,
+} from '@/components/ui/hover-card';
+import { cn } from '@/lib/utils';
 
-export default function Lobby({
-	task,
-}: {
-	task: Promise<LobbyRoom[] | undefined>;
-}) {
+export default function Lobby({ token }: { token: string }) {
 	const { replace } = useRouter();
-	const serverParams = useChat();
+	const { host } = useChat();
 	const [creating, setCreating] = useState(false);
-	const initValues = use(task);
-	const [rooms, setRooms] = useState<LobbyRoom[]>(initValues ?? []);
+	const [rooms, setRooms] = useState<LobbyRoom[]>([]);
 	const { connected } = usePartyRoom<LobbyServerEvent>({
-		...serverParams,
+		host,
+		token,
 		party: 'lobby',
-		onUpdate: ({ type, payload }) => {
+		onUpdate: (e) => {
+			const { type, payload } = e;
 			setRooms((prev) => {
 				switch (type) {
+					case 'roomlist':
+						return [...payload.rooms];
 					case 'create':
-						return [...prev, payload];
+						return [...prev, payload.room];
 					case 'close':
-						return prev.filter((room) => room.id !== payload.roomId);
-					case 'join': {
-						const { roomId, user } = payload;
+						return prev.filter((room) => room.id === payload.roomId);
+					case 'update':
 						return prev.map((room) =>
-							room.id === roomId
-								? { ...room, users: [...room.users, user] }
+							room.id === payload.roomId
+								? { ...room, users: payload.users }
 								: room,
 						);
-					}
-					case 'leave': {
-						const { id: userId, roomId } = payload;
-						return prev.map((room) =>
-							room.id === roomId
-								? {
-										...room,
-										users: room.users.filter((u) => u.id !== userId),
-									}
-								: room,
-						);
-					}
 					default:
 						return prev;
 				}
@@ -59,29 +55,70 @@ export default function Lobby({
 
 	async function openRoom() {
 		setCreating(true);
-		await createRoom().then((id) => replace(`/chat/${id}`));
+		const room = await createRoom();
+		if (room) replace(`/chat/${room}`);
 	}
 
 	return (
 		connected && (
-			<article className="grow flex flex-col justify-between">
+			<ContentGrid className="grow flex flex-col">
 				{creating && <Loader text="Creating Room..." />}
-				<section className="flex flex-wrap  grow gap-3">
-					{rooms.map((e, i) => (
-						<Link key={i} href={`/chat/${e.id}`}>
-							<Image
-								src={e.createdBy.avatar}
-								alt={`Go to ${e.createdBy.name}:s rum`}
-								height={200}
-								width={200}
-								className="rounded-full"
-								priority
-							/>
-						</Link>
-					))}
-				</section>
-				<CreateOrJoin onCreating={openRoom} />
-			</article>
+				{!creating && (
+					<>
+						<h2 className="ps-8 py-4 text-4xl font-thin">Rooms</h2>
+						<div className="flex flex-wrap gap-4 grow">
+							{rooms.map((e, i) => (
+								<Link
+									href={`/chat/${e.id}` as Route}
+									key={i}
+									className="h-fit flex gap-4 border rounded-xl px-5 py-4 items-center hover:bg-gray-100"
+								>
+									<Image
+										src={e.createdBy.avatar}
+										alt={`Go to ${e.createdBy.name}:s rum`}
+										height={50}
+										width={50}
+										className="rounded-full m-auto"
+										priority
+									/>
+									<div className="flex flex-col gap-2">
+										<span>{e.createdBy.name}</span>
+										<UserCount users={e.users} />
+									</div>
+								</Link>
+							))}
+						</div>
+						<Create onCreating={openRoom} />
+					</>
+				)}
+			</ContentGrid>
 		)
 	);
 }
+
+const UserCount = ({ users }: { users: User[] }) => {
+	const count = users.length;
+
+	const userCount = () => (
+		<div className="flex gap-2">
+			{count > 0 && count} <User2 className={cn(!count && 'text-gray-300')} />
+		</div>
+	);
+
+	return count ? (
+		<HoverCard openDelay={250}>
+			<HoverCardTrigger asChild className="flex gap-2">
+				{userCount()}
+			</HoverCardTrigger>
+			<HoverCardContent>
+				<ol>
+					{users.map((u, i) => (
+						<li key={i}>{u.name}</li>
+					))}
+				</ol>
+			</HoverCardContent>
+		</HoverCard>
+	) : (
+		userCount()
+	);
+};

@@ -1,5 +1,7 @@
 'use client';
-import { LockKeyhole, Pencil, Trash2 } from 'lucide-react';
+import { DoorClosedLocked, LockKeyhole, Pencil, Trash2 } from 'lucide-react';
+import type { Route } from 'next';
+import { useRouter } from 'next/navigation';
 import { useActionState, useEffect, useMemo, useRef, useState } from 'react';
 import { sendMessage } from '@/app/chat/actions';
 import { Message } from '@/app/components/ui/message';
@@ -24,19 +26,23 @@ import {
 } from '@/components/ui/input-group';
 
 export default function ChatRoom({
+	token,
 	id,
 	data,
 	isCreator,
 }: {
+	token: string;
 	id: string;
 	data: ChatRoomInitData;
 	isCreator: boolean;
 }) {
-	const hostParams = useChat();
+	const { replace } = useRouter();
+	const { host } = useChat();
 	const [messages, setMessages] = useState<ChatRoomMessageServer[]>(
 		data?.messages ?? [],
 	);
 	const messagesEndRef = useRef<HTMLDivElement>(null);
+
 	const init: ChatRoomClientMessage = { type: 'init', roomId: id };
 
 	const scrollToBottom = () =>
@@ -73,16 +79,20 @@ export default function ChatRoom({
 		});
 	};
 
-	const [, formAction, isPending] = useActionState(message, init);
+	const [, formAction] = useActionState(message, init);
 
 	const { ws } = usePartyRoom<ChatRoomServerEvent>({
-		...hostParams,
+		host,
+		token,
 		party: 'room',
 		room: id?.toString(),
 		onUpdate: (item) => {
 			switch (item.type) {
 				case 'clear':
 					setMessages([]);
+					break;
+				case 'close':
+					replace('/chat' as Route);
 					break;
 				case 'message':
 					setMessages((prev) => {
@@ -103,7 +113,12 @@ export default function ChatRoom({
 		},
 	});
 
+	useEffect(() => {
+		ws.send(JSON.stringify({ type: 'join' }));
+	}, [ws.send]);
+
 	const clear = () => ws.send(JSON.stringify({ type: 'clear' }));
+	const close = () => ws.send(JSON.stringify({ type: 'close' }));
 
 	return (
 		<article className="h-full flex flex-col gap-4 relative">
@@ -124,7 +139,7 @@ export default function ChatRoom({
 			</section>
 			<section className="flex gap-2">
 				<form className="grow" action={formAction}>
-					<InputGroup className="gap-2 " aria-disabled={isPending}>
+					<InputGroup className="gap-2">
 						<InputGroupInput
 							placeholder="Message in channel"
 							name="message"
@@ -136,7 +151,6 @@ export default function ChatRoom({
 						<InputGroupAddon align="inline-end">
 							<InputGroupButton
 								className="hover:cursor-pointer "
-								disabled={isPending}
 								variant={'outline'}
 								type="submit"
 							>
@@ -161,6 +175,10 @@ export default function ChatRoom({
 							<DropdownMenuItem onClick={clear}>
 								<Trash2 className="mr-2 h-4 w-4" />
 								Clear Messages
+							</DropdownMenuItem>
+							<DropdownMenuItem onClick={close}>
+								<DoorClosedLocked className="mr-2 h-4 w-4" />
+								Close Room
 							</DropdownMenuItem>
 						</DropdownMenuContent>
 					</DropdownMenu>

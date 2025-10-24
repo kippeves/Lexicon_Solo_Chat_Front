@@ -5,7 +5,7 @@ import { AuthProvider } from './providers/AuthProvider';
 
 const sans = Geist({
 	variable: '--font-ext-sans',
-	weight: ['300', '400', '600'],
+	weight: ['300', '400', '600', '700'],
 });
 
 const mono = Geist_Mono({

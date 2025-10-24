@@ -6,9 +6,12 @@ import ChatRoom from '@/app/components/chat-room';
 import Lobby from '@/app/components/lobby';
 
 async function ChatRoomPage({ params }: PageProps<'/chat/[[...id]]'>) {
-	const session = getKindeServerSession();
-	const info = await session.getIdToken();
+	const { getIdToken, getIdTokenRaw } = getKindeServerSession();
+	const info = await getIdToken();
+	const token = await getIdTokenRaw();
+	if (!token) return;
 	const { id } = await params;
+
 	const roomId = id?.[0];
 	if (roomId) {
 		const room = await loadInitialDataForRoom(roomId);
@@ -16,6 +19,7 @@ async function ChatRoomPage({ params }: PageProps<'/chat/[[...id]]'>) {
 		return (
 			<Suspense>
 				<ChatRoom
+					token={token}
 					id={roomId}
 					isCreator={room?.info.createdBy.id === info?.sub}
 					data={room}
@@ -23,10 +27,9 @@ async function ChatRoomPage({ params }: PageProps<'/chat/[[...id]]'>) {
 			</Suspense>
 		);
 	} else {
-		const task = loadRooms();
 		return (
 			<Suspense>
-				<Lobby task={task} />
+				<Lobby token={token} />
 			</Suspense>
 		);
 	}

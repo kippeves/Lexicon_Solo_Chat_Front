@@ -5,16 +5,22 @@ import { useChat } from '@/app/contexts/chat-context';
 import { type PartyParams, usePartyRoom } from '@/app/hooks/usePartyRoom';
 import type { Presence, User } from '@/app/validators/users';
 
-export default function UserList({ id }: { id?: string }) {
-	const serverParams = useChat();
+export default function UserList({
+	token,
+	id,
+}: {
+	token: string;
+	id?: string;
+}) {
+	const { host } = useChat();
 	const [users, setUsers] = useState<User[]>([]);
 	const params: PartyParams<Presence> = {
-		...serverParams,
+		host,
+		token,
 		party: 'users',
 		room: id?.toString() ?? 'main',
 		onUpdate: ({ payload }) => setUsers(payload.users),
 	};
-
 	usePartyRoom<Presence>(params);
 
 	return (
