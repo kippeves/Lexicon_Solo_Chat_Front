@@ -71,6 +71,7 @@ export default function Lobby({ token }: { token: string }) {
 								<Link
 									href={`/chat/${e.id}` as Route}
 									key={i}
+									prefetch={false}
 									className="h-fit flex gap-4 border rounded-xl px-5 py-4 items-center hover:bg-gray-100"
 								>
 									<Image
