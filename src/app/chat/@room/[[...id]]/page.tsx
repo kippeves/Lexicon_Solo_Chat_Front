@@ -1,8 +1,10 @@
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
+import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import { loadInitialDataForRoom } from '@/app/chat/actions';
 import ChatRoom from '@/app/components/chat-room';
 import Lobby from '@/app/components/lobby';
+import Loader from '@/app/components/ui/loader';
 
 async function ChatRoomPage({ params }: PageProps<'/chat/[[...id]]'>) {
 	const { getIdToken, getIdTokenRaw } = getKindeServerSession();
@@ -19,15 +21,16 @@ async function ChatRoomPage({ params }: PageProps<'/chat/[[...id]]'>) {
 			console.log(e),
 		);
 		console.log(room);
+		if (!room) return notFound();
 		return (
-			room && (
+			<Suspense fallback={<Loader />}>
 				<ChatRoom
 					token={token}
 					id={roomId}
 					isCreator={room?.info.createdBy.id === info?.sub}
 					data={room}
 				/>
-			)
+			</Suspense>
 		);
 	} else {
 		return (
