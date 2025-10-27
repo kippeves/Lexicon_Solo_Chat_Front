@@ -5,18 +5,18 @@ Syfte: visa upp en realtidschatt med PartyKit för WebSocket-händelser, Kinde f
 
 ## Teknologier som använts.
 - Next.js (App Router, React 19, TypeScript)
-- PartyKit / partysocket — realtids WebSocket-händelser & rum/party-modell
+- PartyKit & PartySocket — realtids WebSocket-händelser
 - Kinde (kinde-auth-nextjs) — autentisering / sessionshantering
-- shadcn/ui + Radix UI-primitiver — UI-komponenter
-- Tailwind CSS (v4) + tailwind-merge + clsx
-- Zod — runtime-validering för inkommande/utgående händelser
-- lucide-react — ikoner
-- Biome / ESLint — formatering & lintning
+- shadcn/ui + UI-komponenter
+- Tailwind CSS (v4)
+- Zod — Validering av inkommande/utgående händelser
+- Lucide-react — Ikoner
+- Biome — formatering & lintning
 
 ## Funktioner
 - Skapa / gå med i rum (lobby)
 - Realtidsmeddelanden med gruppering av meddelanden per datum
-- Användarnärvaro / avatarmärkning
+- Användarnärvaro & avatarmärkning
 - Admin-kontroller: rensa meddelanden, stäng rum
 - Server-side hjälpfunktioner för API-anrop till PartyKit
 
@@ -27,6 +27,19 @@ Skapa en .env.local med åtminstone följande variabler:
 - VERCEL_URL eller KINDE_SITE_URL för lokala dev-redirect-fallbacks
 
 Notera: next.config.ts läser KINDE_* env-värden för redirect-standarder; justera vid behov.
+
+## 📚 Lärdomar
+- NextJS & React
+  - Parallel routes - För lobby & rum - För att minska duplicerad kod och ha en enhetlig källa för layout.
+  - Serverside-funktioner - För de anrop som säkerhetsmässigt bör hålls gömda från clientside.
+- Kinde
+  - Integration av OIDC i frontend.
+- PartyKit / WebSocket
+  - Realtids-eventhantering för frontend.
+  - Säkerhet med JWT-validering.
+- Zod
+  - Validering av inkommande & utgående information
+  - Hantering av typer baserade på valideringsobjekt för en Single-Source-of-Truth.
 
 ## Lokalt uppsättning
 Installera beroenden:
@@ -51,8 +64,8 @@ Formatering / lint:
 - next.config.ts — bilder / env-defaults
 
 ## Noteringar
-- Repot förväntar sig en PartyKit-host och en konfigurerad Kinde-tenant för autentisering.
-- Zod-scheman validerar inkommande/utgående websocket-payloads — justera för att matcha eventuella server-side kontraktsändringar.
+- Repot förväntar sig en PartyKit-host och en konfigurerat Kinde-projekt för autentisering.
+- Zod-scheman validerar inkommande/utgående websocket-payloads, justera vid behov.
 
 Licens
 - MIT (justera efter behov)
