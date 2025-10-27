@@ -8,11 +8,11 @@ __Projekt för backend kan ni hitta här: [Lexicon_Solo_Chat_Back](https://githu
 
 ## Innehålsförteckning
 
-- [Om Projektet](#-om-projektet)
+- [Om projektet](#-om-projektet)
 - [Teknologier som använts](#-teknologier-som-använts)
-- [Screenshots](#-screenshots)
+- [Bilder](#-bilder)
 - [Funktioner](#-funktioner)
-- [Projektstruktur](#-om-projektet)
+- [Projektstruktur](#-projektstruktur)
 - [Lärdomar](#-lärdomar)
 - [Installation](#-installation)
 - [Miljö](#-miljö)
@@ -40,7 +40,7 @@ Målet var att:
 - Lucide-react - Ikoner
 - Biome - Formatering & lintning
 
-## 📷 Screenshots
+## 📷 Bilder
 
 | Front | Lobby | Rum |
 |---|---|---|
@@ -75,7 +75,7 @@ Målet var att:
   - Generering av typer baserade på valideringsobjekt för en Single Source of Truth.
 
 
-## ⚙️ Installation
+## ⚙ Installation
 
 Installera beroenden:
 ```
@@ -98,7 +98,7 @@ Formatering / lint (Tillsammans med Biome):
 - npm run lint-format
 ```
 
-## ⚙️ Miljö
+## ⚙ Miljö
 Skapa en .env.local med åtminstone följande variabler:
 - PARTYKIT (PartyKit host URL)
 - KINDE_CLIENT_ID, KINDE_ISSUER, KINDE_CLIENT_SECRET, etc. (som krävs av Kinde-konfigurationen)
@@ -106,9 +106,9 @@ Skapa en .env.local med åtminstone följande variabler:
 
 Notera: next.config.ts läser KINDE_* env-värden för redirect-standarder; justera vid behov.
 
-## Noteringar
+## 📓 Noteringar
 - Repot förväntar sig en PartyKit-host och en konfigurerat Kinde-projekt för autentisering.
 - Zod-scheman validerar inkommande/utgående websocket-payloads, justera vid behov.
 
-## Licens
+## § Licens
 - Detta projekt är utvecklat i utbildningssyfte och är inte avsett för produktion.
