@@ -15,6 +15,7 @@ async function ChatRoomPage({ params }: PageProps<'/chat/[[...id]]'>) {
 	const roomId = id?.[0];
 	if (roomId) {
 		const room = await loadInitialDataForRoom(roomId);
+		console.log(room);
 		if (!room) return notFound();
 		return (
 			<Suspense>
