@@ -51,6 +51,7 @@ const fetchWithAuth = async <T>(
 };
 
 export async function loadInitialDataForRoom(id: string) {
+	console.log({ id });
 	return fetchWithAuth<ChatRoomInitData>({
 		path: '',
 		options: { method: 'GET' },
