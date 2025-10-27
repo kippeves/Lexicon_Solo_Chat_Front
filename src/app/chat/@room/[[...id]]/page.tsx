@@ -1,5 +1,4 @@
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
-import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import { loadInitialDataForRoom } from '@/app/chat/actions';
 import ChatRoom from '@/app/components/chat-room';
@@ -19,16 +18,16 @@ async function ChatRoomPage({ params }: PageProps<'/chat/[[...id]]'>) {
 		const room = await loadInitialDataForRoom(roomId).catch((e) =>
 			console.log(e),
 		);
-		if (!room) return notFound();
+		console.log(room);
 		return (
-			<Suspense>
+			room && (
 				<ChatRoom
 					token={token}
 					id={roomId}
 					isCreator={room?.info.createdBy.id === info?.sub}
 					data={room}
 				/>
-			</Suspense>
+			)
 		);
 	} else {
 		return (
