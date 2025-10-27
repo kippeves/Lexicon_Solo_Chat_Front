@@ -133,12 +133,9 @@ export async function createRoom(): Promise<string | undefined> {
 			party: 'lobby',
 			room,
 		});
-		console.log(body);
 		const { success, data } = await LobbyServerEventSchema.safeParseAsync(body);
-		if (!success || data.type !== 'create') {
-			console.log('not create');
-			return undefined;
-		}
+		if (!success || data.type !== 'create') return undefined;
+
 		const { id } = data.payload.room;
 		return id;
 	} catch (e) {
