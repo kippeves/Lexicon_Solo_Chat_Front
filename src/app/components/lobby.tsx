@@ -39,7 +39,7 @@ export default function Lobby({ token }: { token: string }) {
 					case 'create':
 						return [...prev, payload.room];
 					case 'close':
-						return prev.filter((room) => room.id === payload.roomId);
+						return prev.filter((room) => room.id !== payload.roomId);
 					case 'update':
 						return prev.map((room) =>
 							room.id === payload.roomId
