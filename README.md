@@ -6,6 +6,20 @@ Syfte: visa upp en realtidschatt med PartyKit för WebSocket-händelser, Kinde f
 __Detta repo innehåller endast av frontend för projektet.__
 __Projekt för backend kan ni hitta här: [Lexicon_Solo_Chat_Back](https://github.com/kippeves/Lexicon_Solo_Chat_Back)__
 
+## Innehålsförteckning
+
+- [Om Projektet](#-om-projektet)
+- [Teknologier som använts](#-teknologier-som-använts)
+- [Screenshots](#-screenshots)
+- [Funktioner](#-funktioner)
+- [Projektstruktur](#-om-projektet)
+- [Lärdomar](#-lärdomar)
+- [Installation](#-installation)
+- [Miljö](#-miljö)
+- [Noteringar](#-noteringar)
+- [Licens](#-licens)
+
+
 ## 📖 Om projektet
 Detta var ett individuellt projekt under kursen Webutvecklare - Frontend som utfördes på Lexicon Proffs AB. 
 
@@ -39,7 +53,7 @@ Målet var att:
 - Admin-kontroller: rensa meddelanden, stäng rum
 - Server-side hjälpfunktioner för API-anrop till PartyKit
 
-## 📂 Projektstruktur (översikt)
+## 📂 Projektstruktur
 - src/app — Next.js-routes och UI
 - src/components — Delade UI-komponenter & ShadCN
 - src/app/validators — Zod-scheman för strukturerade realtids-händelser
@@ -61,7 +75,7 @@ Målet var att:
   - Generering av typer baserade på valideringsobjekt för en Single Source of Truth.
 
 
-## ⚙️ Lokalt uppsättning
+## ⚙️ Installation
 
 Installera beroenden:
 ```
@@ -96,5 +110,5 @@ Notera: next.config.ts läser KINDE_* env-värden för redirect-standarder; just
 - Repot förväntar sig en PartyKit-host och en konfigurerat Kinde-projekt för autentisering.
 - Zod-scheman validerar inkommande/utgående websocket-payloads, justera vid behov.
 
-Licens
+## Licens
 - Detta projekt är utvecklat i utbildningssyfte och är inte avsett för produktion.
