@@ -6,7 +6,7 @@ Syfte: visa upp en realtidschatt med PartyKit för WebSocket-händelser, Kinde f
 __Detta repo innehåller endast den utvecklade frontend-koden för projektet.__
 __Kod för Backend finns att se här: [Lexicon_Solo_Chat_Back](https://github.com/kippeves/Lexicon_Solo_Chat_Back)__
 
-## Innehålsförteckning
+## Innehållsförteckning
 
 - [Om projektet](#-om-projektet)
 - [Teknologier som använts](#-teknologier-som-använts)
