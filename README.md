@@ -30,6 +30,18 @@ Målet var att:
 - Med hjälp av GitHub Projects arbeta på ett strukturerat tillvägagångssätt.
 - Arbeta med Feature Branches & Pull Requests.
 
+## Arbetssätt:
+Projektet pågick under två vecko-långa interationer där målet var att få klart en MVP under första veckan, för att sedan
+kunna iterera över den under andra veckan.
+
+Jag påbörjade arbetet med att göra en grundläggande skiss av vad jag ville att projektet skulle innefatta. 
+Då det inte fanns någon möjlighet att köra monorepo så började jag med att: 
+- Bryta upp projektet i en Frontend-del och en Backend-del då jag visste att jag skulle behöva deploya dem separat.
+- Sätta jag upp två Github Projects-sida för dem som jag fyllde på med initialt identifierade uppgifter (Sätta upp server för backend och frontend, skapa första utkast av sidor etc)
+
+Jag började således med att börja bocka av de tasks jag hade identifierat. I vissa fall så märkte jag att jag skulle behöva bryta upp tasks jag från början hade gjort för stora eller behövde göra på ett annat sätt, då bröt jag ner dem i mindre tasks eller skrev om dem helt vid behov. 
+Om jag hittade fel i applikationen så skrev jag en bugg-task i Projects, skapade en PR på det och kopplade det till tasken.  Jag hade som en praxis att alltid ha Pull Requests och Tasks kopplade till de problem som jag aktivt jobbade på.
+
 ## 🛠 Teknologier som använts.
 - Next.js (App Router, React 19, TypeScript)
 - PartyKit & PartySocket - WebSocket-eventhantering
