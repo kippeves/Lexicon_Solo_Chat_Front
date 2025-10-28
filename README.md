@@ -3,8 +3,8 @@
 Liten demo av en livechatt-frontend byggd med Next.js, PartyKit (partysocket) och Kinde för autentisering.  
 Syfte: visa upp en realtidschatt med PartyKit för WebSocket-händelser, Kinde för användarautentisering och ett lättviktigt gränssnitt byggt med shadcn/ui + Tailwind.
 
-__Detta repo innehåller endast av frontend för projektet.__
-__Projekt för backend kan ni hitta här: [Lexicon_Solo_Chat_Back](https://github.com/kippeves/Lexicon_Solo_Chat_Back)__
+__Detta repo innehåller endast den utvecklade frontend-koden för projektet.__
+__Kod för Backend finns att se här: [Lexicon_Solo_Chat_Back](https://github.com/kippeves/Lexicon_Solo_Chat_Back)__
 
 ## Innehålsförteckning
 
